@@ -1,0 +1,155 @@
+###############################################################################
+#                                                                             #
+#                        CENTRE DE CALCUL DE L'IN2P3                          #
+#               Copyright (c) 2000 - 2019 All rights reserved.                #
+#                                                                             #
+#                             ---------------                                 #
+#                                                                             #
+#     Please report problems, comments and remarks to the CCIN2P3 user        #
+#            support team at http://cctools.in2p3.fr/usersupport              #
+#                                                                             #
+#                          .profile template file                             #
+###############################################################################
+
+#=============================================================================#
+# This file is called at the begining of your Korn shell session. Please      #
+# modify only the USER SESSION to customize your shell environment.           #
+#=============================================================================#
+
+#=============================================================================#
+#                               GROUP SECTION                                 #
+#=============================================================================#
+# This section contains group profile calls. They are managed by your group's #
+# administator. Only modify it if explicitly requested.                       #
+#=============================================================================#
+
+ if [ -n "$THRONG_DIR" ];then
+    if [ -r $THRONG_DIR/group_profile ];then
+       . $THRONG_DIR/group_profile
+    fi
+ fi
+
+#=============================================================================#
+#                               USER SECTION                                  #
+#=============================================================================#
+# Modify this section to customize your shell environment. If you have        #
+# ENVIRONMENT specific settings (batch/interactive), put your definitions in  #
+# the proper section as described below.                                      #
+#=============================================================================#
+
+
+alias rm='rm -i'
+alias cp='cp -v'
+alias mv='mv -v'
+alias l='ll --block-size=M'
+
+alias sps='cd /sps/km3net/users/mbenhassi'
+alias e='emacs -nw'
+alias bp='e /pbs/home/m/mbenhassi/.profile'
+alias sbp='source /pbs/home/m/mbenhassi/.profile'
+
+
+
+
+source /pbs/throng/km3net/group_profile
+
+#export ANTDSTROOT=/sps/km3net/users/mbenhassi/AntDST/v1r5
+#export LD_LIBRARY_PATH=${LD_LIBRARY_PATH}:${ANTDSTROOT}/lib:${LD_LIBRARY_PATH}
+#export aasearch=/pbs/throng/km3net/software/aanet/2.2.5/lib/
+#export LD_LIBRARY_PATH=${aasearch}/lib:${aasearch}/lib:$LD_LIBRARY_PATH
+#export KM3NET_THRONG_DIR=/pbs/throng/km3net
+#export KM3NET_THRONG_DIR=/pbs/throng/km3net/modulefiles/RHEL9
+#export MODULEPATH=${KM3NET_THRONG_DIR}/modulefiles
+#export TUNEHV_DB_TESTTYPE="HV-TUNING-GAIN-v2"
+export KM3NET_THRONG_DIR=/pbs/throng/km3net/modulefiles/RHEL9
+export JPP_DIR=$KM3NET_THRONG_DIR/software/Jpp
+export AANET=$KM3NET_THRONG_DIR/software/aanet/2.2.1
+export AANET_EX=$AANET/examples
+export AANET_APP=$AANET/apps
+
+module unload *
+#module load aanet/master
+#module load aanet/2.7.0
+module load python/3.9.20
+module load root/6.32.02
+#module load python/3.7.5
+#module load root/6.22.06
+#module load singularity/3.5.2
+#module load jpp/16.0.1
+##module load aanet/master
+#module load gseagen/7.0.0
+#module load mupage/4.1
+
+
+# updated aanet
+#commented by me for DST files!
+source /sps/km3net/users/mbenhassi/LR_ProjDir/arca-ps-after-correction/arca-ps-aart_update/aanet/setenv.sh
+cd /sps/km3net/users/mbenhassi/LR_ProjDir/arca-ps-after-correction/arca-ps-aart_update/aanet/
+source ./setenv.sh
+make.py
+#cd
+
+#source /sps/km3net/users/mbenhassi/Origil_Codes/arca-ps/aanet/setenv.sh
+#cd /sps/km3net/users/mbenhassi/Origil_Codes/arca-ps/aanet
+#make.py
+#cd 
+
+# aanet
+#git submodule init
+#git submodule update
+
+#source /sps/km3net/users/mbenhassi/LR_ProjDir/arca-ps/aanet/setenv.sh 
+#cd /sps/km3net/users/mbenhassi/LR_ProjDir/arca-ps/aanet/
+#make.py
+#cd
+
+#/sps/km3net/users/mbenhassi/LR_ProjDir/arca-ps/aanet/make.py
+
+
+#=============================================================================#
+#                              GLOBAL SETTINGS                                #
+#=============================================================================#
+
+# Set up the search path variable.
+ PATH=$PATH:.
+ export PATH
+
+# Set up the environment file (edit this file to add aliases and more...).
+ ENV=$HOME/.kshrc
+ export ENV
+
+#FULLNAME='my name'
+#export FULLNAME
+#ORGANIZATION='my lab'
+#export ORGANIZATION
+
+#=============================================================================#
+#                        ENVIRONMENT DEPENDENT SETTINGS                       #
+#=============================================================================#
+
+case $ENVIRONMENT in
+   BATCH)    # Settings only defined in a batch session.
+
+     # Put here your commands to be run only in a batch session.
+
+     ;;
+
+   INTERACTIVE|ACCESS)    # Interactive/Login settings only.
+
+     # Put here your commands to be run only in a login session.
+
+     # Set up the prompt pattern.
+     PS1='\h:${PWD}(${?})>'
+     export PS1
+
+     # If you want to modify system default settings for your interactive
+     # sessions, this is a good place to do it.
+     #PAGER=less
+     #EDITOR=vim
+     #VISUAL=vim
+
+     ;;
+esac
+
+###############################################################################
+# EOF
